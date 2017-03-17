@@ -16,7 +16,6 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
-import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
@@ -97,25 +96,19 @@ public class ExportExcel<T> {
             int i = 1;
             for (T obj : list) {
                 int j = 0;
-                for (int k = 0; k < fields.size(); k++) {
-                    Object val = PropertyUtils.getProperty(obj, fields.get(k));
+                for (String field : fields) {
+                    Object val = PropertyUtils.getProperty(obj, field);
                     if (val instanceof String) {
                         sheet.addCell(new Label(j, i, (String) val, wcf_left));
                     } else if (val instanceof Date) {
                         String dateStr = DateFormatUtils.format((Date) val, DATE_FORMAT_STR);
-                        sheet.addCell(new Label(j, i, dateStr, wcf_left));
-                    } else if (val instanceof java.sql.Date) {
-                        String dateStr = DateFormatUtils.format((java.sql.Date) val, DATE_FORMAT_STR);
-                        sheet.addCell(new Label(j, i, dateStr, wcf_left));
-                    } else if (val instanceof Timestamp) {
-                        String dateStr = DateFormatUtils.format((Timestamp) val, DATE_FORMAT_STR);
                         sheet.addCell(new Label(j, i, dateStr, wcf_left));
                     } else if (val instanceof Calendar) {
                         String dateStr = DateFormatUtils.format((Calendar) val, DATE_FORMAT_STR);
                         sheet.addCell(new Label(j, i, dateStr, wcf_left));
                     } else if (NumberUtils.isCreatable(String.valueOf(val))) {
                         String tmpValue = String.valueOf(val);
-                        if (tmpValue.indexOf(".") != -1) {
+                        if (tmpValue.contains(".")) {
                             sheet.addCell(new Number(j, i, Double.valueOf(tmpValue), wcf_left));
                         } else {
                             sheet.addCell(new Number(j, i, Long.valueOf(tmpValue), wcf_left));
@@ -135,9 +128,7 @@ public class ExportExcel<T> {
             if (workbook != null) {
                 try {
                     workbook.close();
-                } catch (IOException e) {
-                    result = false;
-                } catch (WriteException e) {
+                } catch (IOException | WriteException e) {
                     result = false;
                 }
             }
@@ -153,7 +144,7 @@ public class ExportExcel<T> {
         List<String> headers = new LinkedList<>();
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
-            Export export = field.getAnnotation(Export.class);
+            ExportField export = field.getAnnotation(ExportField.class);
             if (export != null) {
                 if (StringUtils.isEmpty(export.name())) {
                     headers.add(field.getName());
@@ -169,7 +160,7 @@ public class ExportExcel<T> {
         List<String> headers = new LinkedList<>();
         Field[] fields = clazz.getDeclaredFields();
         for (Field field : fields) {
-            Export export = field.getAnnotation(Export.class);
+            ExportField export = field.getAnnotation(ExportField.class);
             if (export != null) {
                 headers.add(field.getName());
             }

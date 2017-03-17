@@ -4,13 +4,13 @@ import java.util.Date;
 
 public class Employee {
 
-    @Export(name = "序号")
+    @ExportField(name = "序号")
     private Integer id;
-    @Export(name = "姓名")
+    @ExportField(name = "姓名")
     private String name;
-    @Export
+    @ExportField
     private Boolean sex;
-    @Export
+    @ExportField
     private Date birthday;
 
     public Employee(Integer id, String name, Boolean sex, Date birthday) {
