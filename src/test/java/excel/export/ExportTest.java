@@ -20,12 +20,18 @@ public class ExportTest {
         List<Employee> employees = new ArrayList<>(ROW_LENGTH);
         final int NAME_LENGTH = 5;
         final String CHARS = "abcdefahijklmnopqrstuvwxyz";
-        for (int i = 1; i <= ROW_LENGTH; i++) {
-            employees.add(new Employee(i, RandomStringUtils.random(NAME_LENGTH, CHARS), true, new Date()));
-        }
         final String filename = FileUtils.getTempDirectoryPath() + "employee.xls";
-        boolean result = new ExportExcel<>(employees, filename, Employee.class).export();
+
+        ExportExcel exportExcel = new ExportExcel(filename);
+        for (int i = 1; i <= 10; i++) {
+            for (int j = 1; j <= ROW_LENGTH; j++) {
+                employees.add(new Employee(j, RandomStringUtils.random(NAME_LENGTH, CHARS), true, new Date()));
+            }
+            exportExcel.addSheet("Sheet" + i, employees, Employee.class);
+            employees.clear();
+        }
+        exportExcel.write();
+
         logger.info(filename);
-        logger.info(result);
     }
 }

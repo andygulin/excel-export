@@ -6,22 +6,22 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>excel-export</name>
-    <url>http://maven.apache.org</url>
+    <url>https://maven.apache.org</url>
 
     <properties>
         <compile.level>1.8</compile.level>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <jxl.version>2.6.12</jxl.version>
-        <commons-lang3.version>3.5</commons-lang3.version>
-        <commons-io.version>2.5</commons-io.version>
-        <commons-beanutils.version>1.9.3</commons-beanutils.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <commons-io.version>2.11.0</commons-io.version>
+        <commons-beanutils.version>1.9.4</commons-beanutils.version>
 
-        <junit.version>4.12</junit.version>
-        <log4j.version>2.6.2</log4j.version>
+        <junit.version>4.13.2</junit.version>
+        <log4j.version>2.19.0</log4j.version>
 
-        <maven-compiler-plugin.version>3.6.1</maven-compiler-plugin.version>
-        <maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+        <maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+        <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
     </properties>
 
     <dependencies>
